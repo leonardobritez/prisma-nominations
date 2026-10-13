@@ -1,0 +1,25 @@
+# Normalizacion de finales de linea.
+# Se guarda siempre con LF en el repositorio; cada plataforma aplica lo suyo al hacer checkout.
+* text=auto
+
+*.java   text eol=lf
+*.md     text eol=lf
+*.xml    text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.sql    text eol=lf
+*.json   text eol=lf
+*.http   text eol=lf
+*.js     text eol=lf
+*.properties text eol=lf
+
+# Scripts de Windows
+*.cmd    text eol=crlf
+*.bat    text eol=crlf
+*.ps1    text eol=crlf
+
+# Binarios
+*.jar    binary
+*.png    binary
+*.jpg    binary
+*.ico    binary
