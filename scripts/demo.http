@@ -1,0 +1,68 @@
+### Demo PRISMA - Nominations API (REST Client / IntelliJ HTTP)
+### Levantar la API en http://localhost:8081 con SECURITY_ENABLED (token dev-token).
+
+@api = http://localhost:8081
+@token = dev-token
+@nominationId = PEGAR_AQUI_EL_NOMINATION_ID
+
+### E1 - Solicitud valida (202). Procesa el mock de ABM y aprueba.
+POST {{api}}/v1/nominations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+Idempotency-Key: demo-clave-1
+X-Correlation-Id: corr-demo-1
+
+{
+  "customer_id": "123456",
+  "account_id": "987654",
+  "card_id": "TOKEN_OR_MASKED_REFERENCE",
+  "alias": "CUENTA_PRINCIPAL",
+  "request_id": "8fcb3fa0-7f19-4fc2-a803-cc76ac815001"
+}
+
+### E2 - Datos obligatorios ausentes (400)
+POST {{api}}/v1/nominations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "account_id": "987654",
+  "alias": "CUENTA_PRINCIPAL",
+  "request_id": "8fcb3fa0-7f19-4fc2-a803-cc76ac815002"
+}
+
+### E3 - Solicitud repetida (idempotente: misma respuesta)
+POST {{api}}/v1/nominations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+Idempotency-Key: demo-clave-1
+
+{
+  "customer_id": "123456",
+  "account_id": "987654",
+  "card_id": "TOKEN_OR_MASKED_REFERENCE",
+  "alias": "CUENTA_PRINCIPAL",
+  "request_id": "8fcb3fa0-7f19-4fc2-a803-cc76ac815001"
+}
+
+### E5 - Rechazo funcional de ABM (sufijo _REJ)
+POST {{api}}/v1/nominations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+Idempotency-Key: demo-rej-1
+
+{
+  "customer_id": "123456",
+  "account_id": "987654_REJ",
+  "card_id": "TOKEN_REFERENCE",
+  "alias": "CUENTA_REJ",
+  "request_id": "8fcb3fa0-7f19-4fc2-a803-cc76ac815003"
+}
+
+### Consultar estado
+GET {{api}}/v1/nominations/{{nominationId}}
+Authorization: Bearer {{token}}
+
+### Consultar historial
+GET {{api}}/v1/nominations/{{nominationId}}/history
+Authorization: Bearer {{token}}

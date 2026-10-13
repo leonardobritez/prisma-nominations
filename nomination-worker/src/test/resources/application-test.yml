@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:workertest;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  flyway:
+    enabled: false
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      abm:
+        sliding-window-size: 4
+        minimum-number-of-calls: 4
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 1h
+
+app:
+  abm:
+    max-attempts: 4
+    wait-window: 30s
+    backoff-base: 10ms
+    batch-size: 50
+  worker:
+    dispatch-interval-ms: 3600000
+    recovery-interval-ms: 3600000
+
+management:
+  tracing:
+    enabled: false
+  otlp:
+    tracing:
+      export:
+        enabled: false

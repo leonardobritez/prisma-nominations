@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:publishertest;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  flyway:
+    enabled: false
+
+app:
+  publisher:
+    interval-ms: 3600000
+    recovery-interval-ms: 3600000
+    batch-size: 50
+    max-attempts: 3
+    backoff: 1ms
+    stuck-threshold: 60s
+
+management:
+  tracing:
+    enabled: false
+  otlp:
+    tracing:
+      export:
+        enabled: false
