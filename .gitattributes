@@ -23,3 +23,6 @@
 *.png    binary
 *.jpg    binary
 *.ico    binary
+*.docx   binary
+*.doc    binary
+*.pdf    binary
